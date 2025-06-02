@@ -52,20 +52,20 @@ runs {
 
     client {
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        // systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
     server {
-        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        // systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         argument '--nogui'
     }
 
     // This run config launches GameTestServer and runs all registered gametests, then exits.
     // By default, the server will crash when no gametests are provided.
     // The gametest system is also enabled by default for other run configs under the /test command.
-    gameTestServer {
+    /* gameTestServer {
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-    }
+    } */
 
     data {
         // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
@@ -160,12 +160,4 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
-idea {
-    module {
-        downloadSources = true
-        downloadJavadoc = true
-    }
 }
