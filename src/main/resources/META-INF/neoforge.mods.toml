@@ -12,11 +12,8 @@ displayName="${mod_name}"
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 
-# A file name (in the root of the mod JAR) containing a logo for display
-#logoFile="examplemod.png" #optional
-
-authors="${mod_authors}" #optional
-
+logoFile="logo.png"
+authors="${mod_authors}"
 description='''${mod_description}'''
 
 [[dependencies.${mod_id}]]

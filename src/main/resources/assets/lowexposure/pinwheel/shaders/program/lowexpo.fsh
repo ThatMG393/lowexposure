@@ -19,8 +19,5 @@ void main() {
     float lum = dot(exposed, vec3(0.299, 0.587, 0.114));
     vec3 desaturated = mix(vec3(lum), exposed, colorMix);
     
-    // Darken and add brownish tint
-    // vec3 deadTone = desaturated * vec3(0.8, 0.75, 0.6);
-    
     fragColor.rgb = desaturated;
 }
