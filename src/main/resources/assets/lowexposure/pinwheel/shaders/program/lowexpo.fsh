@@ -1,7 +1,7 @@
 #version 330 compatibility
 
 const float exposure = -0.3;
-const float colorMix = 0.3;
+const float colorMix = 0.45;
 
 in vec2 texCoord;
 
