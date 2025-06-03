@@ -32,7 +32,7 @@ public class LowExposure {
 
     public static ResourceLocation LOW_EXPOSURE_PIPELINE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "lowexpo");
     
-    private LowExposure() { }
+    public LowExposure() { }
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
