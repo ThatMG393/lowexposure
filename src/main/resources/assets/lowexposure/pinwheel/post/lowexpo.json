@@ -1,0 +1,7 @@
+{  
+    "stages": [{  
+        "type": "veil:blit",
+        "shader": "lowexposure:lowexpo_shader",
+        "in": "minecraft:main"
+    }]  
+}
