@@ -2,15 +2,12 @@ package com.thatmg393.lowexposure;
 
 import java.util.Set;
 
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.platform.VeilEventPlatform;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.fzzyhmstrs.fzzy_config.api.RegisterType;
