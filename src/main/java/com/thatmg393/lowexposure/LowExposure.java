@@ -1,7 +1,5 @@
 package com.thatmg393.lowexposure;
 
-import java.util.Set;
-
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -80,10 +78,12 @@ public class LowExposure {
                 LOADED_CONFIG.saturation
             );
 
-            @SuppressWarnings("unchecked")
-            Float[] luma = ((Set<Float>) LOADED_CONFIG.luma.get()).stream().toArray(Float[]::new);
-
-            shader.getUniform("uLuma").setVector(luma[0], luma[1], luma[2]);
+            
+            shader.getUniform("uLuma").setVector(
+                LOADED_CONFIG.luma.get(0),
+                LOADED_CONFIG.luma.get(1),
+                LOADED_CONFIG.luma.get(2)
+            );
         });
             
         LOGGER.info("Successfully registered post-processing shader!");
