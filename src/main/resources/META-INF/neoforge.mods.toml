@@ -37,4 +37,10 @@ description='''${mod_description}'''
 	ordering="BEFORE"
 	side="CLIENT"
 
+[[dependencies.${mod_id}]]
+    modId="fzzy_config"
+    type="required"
+    versionRange="*"
+    ordering="NONE"
+    side="CLIENT"
 
