@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.platform.VeilEventPlatform;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.fzzyhmstrs.fzzy_config.api.RegisterType;
@@ -64,22 +63,13 @@ public class LowExposure {
             name, pipeline, context
         ) -> {
             if (!LOW_EXPOSURE_PIPELINE.equals(name)) return;
+            pipeline.apply(context);
 
-            ShaderProgram shader = context.getShader(LOW_EXPOSURE_SHADER);
-            shader.getUniform("uBrightness").setFloat(
-                LOADED_CONFIG.brightness
-            );
+            pipeline.getUniform("uBrightness").setFloat(LOADED_CONFIG.brightness);
+            pipeline.getUniform("uContrast").setFloat(LOADED_CONFIG.contrast);
+            pipeline.getUniform("uSaturation").setFloat(LOADED_CONFIG.saturation);
 
-            shader.getUniform("uContrast").setFloat(
-                LOADED_CONFIG.contrast
-            );
-
-            shader.getUniform("uSaturation").setFloat(
-                LOADED_CONFIG.saturation
-            );
-
-            
-            shader.getUniform("uLuma").setVector(
+            pipeline.getUniform("uLuma").setVector(
                 LOADED_CONFIG.luma.get(0),
                 LOADED_CONFIG.luma.get(1),
                 LOADED_CONFIG.luma.get(2)

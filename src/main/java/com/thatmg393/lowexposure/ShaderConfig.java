@@ -20,7 +20,4 @@ public class ShaderConfig extends Config {
     public ValidatedList<Float> luma = ValidatedList.ofFloat(
         0.299f, 0.587f, 0.114f
     );
-
-    // public ValidatedSet<Float> luma = new ValidatedIdentifier().toSet(null)
-    // LinkedHashSet<Float> luma = new LinkedHashSet<>();
 }

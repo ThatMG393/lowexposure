@@ -33,14 +33,14 @@ description='''${mod_description}'''
 [[dependencies.${mod_id}]]
 	modId="veil"
 	type="required"
-	versionRange="[${veil_version}]"
+	versionRange="[${veil_version},)"
 	ordering="BEFORE"
 	side="CLIENT"
 
 [[dependencies.${mod_id}]]
     modId="fzzy_config"
     type="required"
-    versionRange="*"
+    versionRange="[${fzzy_config_version}+neoforge,)"
     ordering="NONE"
     side="CLIENT"
 
