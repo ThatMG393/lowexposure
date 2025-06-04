@@ -33,7 +33,7 @@ public class LowExposure {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static ResourceLocation LOW_EXPOSURE_PIPELINE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "lowexpo_pipeline");
-    public static ResourceLocation LOW_EXPOSURE_SHADER = ResourceLocation.fromNamespaceAndPath(MOD_ID, "lowexpo");
+    public static ResourceLocation LOW_EXPOSURE_SHADER = ResourceLocation.fromNamespaceAndPath(MOD_ID, "lowexpo_shader");
 
     public static ShaderConfig LOADED_CONFIG = ConfigApiJava.registerAndLoadConfig(
         ShaderConfig::new, RegisterType.CLIENT
@@ -65,7 +65,7 @@ public class LowExposure {
         VeilEventPlatform.INSTANCE.preVeilPostProcessing((
             name, pipeline, context
         ) -> {
-            if (LOW_EXPOSURE_PIPELINE.equals(name)) return;
+            if (!LOW_EXPOSURE_PIPELINE.equals(name)) return;
             ShaderProgram shader = context.getShader(LOW_EXPOSURE_SHADER);
             shader.getUniformSafe("uBrightness").setFloat(
                 LOADED_CONFIG.brightness
