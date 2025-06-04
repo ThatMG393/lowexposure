@@ -66,23 +66,24 @@ public class LowExposure {
             name, pipeline, context
         ) -> {
             if (!LOW_EXPOSURE_PIPELINE.equals(name)) return;
+
             ShaderProgram shader = context.getShader(LOW_EXPOSURE_SHADER);
-            shader.getUniformSafe("uBrightness").setFloat(
+            shader.getUniform("uBrightness").setFloat(
                 LOADED_CONFIG.brightness
             );
 
-            shader.getUniformSafe("uContrast").setFloat(
+            shader.getUniform("uContrast").setFloat(
                 LOADED_CONFIG.contrast
             );
 
-            shader.getUniformSafe("uSaturation").setFloat(
+            shader.getUniform("uSaturation").setFloat(
                 LOADED_CONFIG.saturation
             );
 
             @SuppressWarnings("unchecked")
             Float[] luma = ((Set<Float>) LOADED_CONFIG.luma.get()).stream().toArray(Float[]::new);
 
-            shader.getUniformSafe("uLuma").setVector(luma[0], luma[1], luma[2]);
+            shader.getUniform("uLuma").setVector(luma[0], luma[1], luma[2]);
         });
             
         LOGGER.info("Successfully registered post-processing shader!");
