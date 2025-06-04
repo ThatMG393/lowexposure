@@ -1,7 +1,9 @@
 #version 330 compatibility
 
-const float exposure = -0.3;
-const float colorMix = 0.45;
+const float uBrightness = -0.05;
+const float uContrast = 1.15;
+const float uSaturation = 0.50;
+const vec3 LUMA = vec3(0.299, 0.587, 0.114);
 
 in vec2 texCoord;
 
@@ -12,12 +14,6 @@ out vec4 fragColor;
 void main() {
     fragColor = texture(DiffuseSampler0, texCoord);
     
-    // Apply exposure
-    vec3 exposed = fragColor.rgb * pow(2.0, exposure);
-    
-    // Heavy desaturation
-    float lum = dot(exposed, vec3(0.299, 0.587, 0.114));
-    vec3 desaturated = mix(vec3(lum), exposed, colorMix);
-    
-    fragColor.rgb = desaturated;
+    // saturate, then contrast around 0.5, then add brightness
+    fragColor.rgb = ((mix(vec3(dot(fragColor.rgb, LUMA)), fragColor.rgb, uSaturation) - 0.5) * uContrast + 0.5) + uBrightness;
 }
