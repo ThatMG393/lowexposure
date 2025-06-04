@@ -1,17 +1,22 @@
 package com.thatmg393.lowexposure;
 
+import java.util.Set;
+
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.platform.VeilEventPlatform;
-import net.minecraft.client.Minecraft;
+import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
+import me.fzzyhmstrs.fzzy_config.api.RegisterType;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -30,7 +35,12 @@ public class LowExposure {
     public static final String MOD_ID = "lowexposure";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static ResourceLocation LOW_EXPOSURE_PIPELINE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "lowexpo");
+    public static ResourceLocation LOW_EXPOSURE_PIPELINE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "lowexpo_pipeline");
+    public static ResourceLocation LOW_EXPOSURE_SHADER = ResourceLocation.fromNamespaceAndPath(MOD_ID, "lowexpo");
+
+    public static ShaderConfig LOADED_CONFIG = ConfigApiJava.registerAndLoadConfig(
+        ShaderConfig::new, RegisterType.CLIENT
+    );
     
     public LowExposure() { }
 
@@ -51,13 +61,34 @@ public class LowExposure {
             matrixStack, matrix4fc, matrix4fc2,
             n, deltaTracker, camera, frustum
         ) -> {
-        if (VeilRenderSystem.renderer().getPostProcessingManager().isActive(LOW_EXPOSURE_PIPELINE)) return;
+            if (VeilRenderSystem.renderer().getPostProcessingManager().isActive(LOW_EXPOSURE_PIPELINE)) return;
             VeilRenderSystem.renderer().getPostProcessingManager().add(LOW_EXPOSURE_PIPELINE);
+        });
+
+        VeilEventPlatform.INSTANCE.preVeilPostProcessing((
+            name, pipeline, context
+        ) -> {
+            if (LOW_EXPOSURE_PIPELINE.equals(name)) return;
+            ShaderProgram shader = context.getShader(LOW_EXPOSURE_SHADER);
+            shader.getUniformSafe("uBrightness").setFloat(
+                LOADED_CONFIG.brightness
+            );
+
+            shader.getUniformSafe("uContrast").setFloat(
+                LOADED_CONFIG.contrast
+            );
+
+            shader.getUniformSafe("uSaturation").setFloat(
+                LOADED_CONFIG.saturation
+            );
+
+            @SuppressWarnings("unchecked")
+            Float[] luma = ((Set<Float>) LOADED_CONFIG.luma.get()).stream().toArray(Float[]::new);
+
+            shader.getUniformSafe("uLuma").setVector(luma[0], luma[1], luma[2]);
         });
             
         LOGGER.info("Successfully registered post-processing shader!");
-            
-        // TODO: customizable color mix and contrast through uniforms
 
         if (!ModList.get().isLoaded("thebrokenscript")) {
             LOGGER.info("This mod is best used with The Broken Script!");

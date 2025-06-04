@@ -25,6 +25,15 @@ repositories {
         name = 'BlameJared Maven (CrT / Bookshelf)'
         url = 'https://maven.blamejared.com'
     }
+
+    maven {
+        name = 'FzzyMaven'
+        url = 'https://maven.fzzyhmstrs.me'
+    }
+
+    maven {
+        url = 'https://thedarkcolour.github.io/KotlinForForge'
+    }
 }
 
 base {
@@ -106,6 +115,7 @@ dependencies {
         exclude group: "maven.modrinth"
         exclude group: "me.fallenbreath"
     }
+    implementation("me.fzzyhmstrs:fzzy_config:${fzzy_config_version}+neoforge")
 
     jarJar(group: "foundry.veil", name: "veil-neoforge-${minecraft_version}", version: "${veil_version}")
 
