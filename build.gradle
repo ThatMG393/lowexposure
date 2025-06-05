@@ -82,7 +82,7 @@ tasks.withType(ProcessResources).configureEach {
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-sourceSets.main.resources.srcDir 'src/generated/resources' }
+sourceSets.main.resources.srcDir 'src/generated/resources'
 configurations { runtimeClasspath.extendsFrom localRuntime }
 
 tasks.withType(JavaCompile).configureEach {
