@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.platform.VeilEventPlatform;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.fzzyhmstrs.fzzy_config.api.RegisterType;
@@ -55,21 +56,26 @@ public class LowExposure {
             matrixStack, matrix4fc, matrix4fc2,
             n, deltaTracker, camera, frustum
         ) -> {
-            if (VeilRenderSystem.renderer().getPostProcessingManager().isActive(LOW_EXPOSURE_PIPELINE)) return;
-            VeilRenderSystem.renderer().getPostProcessingManager().add(LOW_EXPOSURE_PIPELINE);
+            if (LOADED_CONFIG.enabled) {
+                if (VeilRenderSystem.renderer().getPostProcessingManager().isActive(LOW_EXPOSURE_PIPELINE)) return;
+                VeilRenderSystem.renderer().getPostProcessingManager().add(LOW_EXPOSURE_PIPELINE);
+            } else if (VeilRenderSystem.renderer().getPostProcessingManager().isActive(LOW_EXPOSURE_PIPELINE)) {
+                VeilRenderSystem.renderer().getPostProcessingManager().remove(LOW_EXPOSURE_PIPELINE);
+            }
         });
 
         VeilEventPlatform.INSTANCE.preVeilPostProcessing((
             name, pipeline, context
         ) -> {
             if (!LOW_EXPOSURE_PIPELINE.equals(name)) return;
-            pipeline.apply(context);
+            ShaderProgram program = context.getShader(LOW_EXPOSURE_SHADER);
+            if (program == null) return;
 
-            pipeline.getUniform("uBrightness").setFloat(LOADED_CONFIG.brightness);
-            pipeline.getUniform("uContrast").setFloat(LOADED_CONFIG.contrast);
-            pipeline.getUniform("uSaturation").setFloat(LOADED_CONFIG.saturation);
+            program.getUniform("uBrightness").setFloat(LOADED_CONFIG.brightness);
+            program.getUniform("uContrast").setFloat(LOADED_CONFIG.contrast);
+            program.getUniform("uSaturation").setFloat(LOADED_CONFIG.saturation);
 
-            pipeline.getUniform("uLuma").setVector(
+            program.getUniform("uLuma").setVector(
                 LOADED_CONFIG.luma.get(0),
                 LOADED_CONFIG.luma.get(1),
                 LOADED_CONFIG.luma.get(2)

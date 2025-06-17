@@ -14,6 +14,7 @@ public class ShaderConfig extends Config {
         );
     }
 
+    public boolean enabled = true;
     public float brightness = -0.05f;
     public float contrast = 1.15f;
     public float saturation = 0.50f;
