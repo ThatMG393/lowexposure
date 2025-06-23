@@ -71,11 +71,11 @@ public class LowExposure {
             ShaderProgram program = context.getShader(LOW_EXPOSURE_SHADER);
             if (program == null) return;
 
-            program.getUniform("uBrightness").setFloat(LOADED_CONFIG.brightness);
-            program.getUniform("uContrast").setFloat(LOADED_CONFIG.contrast);
-            program.getUniform("uSaturation").setFloat(LOADED_CONFIG.saturation);
+            program.getOrCreateUniform("uBrightness").setFloat(LOADED_CONFIG.brightness);
+            program.getOrCreateUniform("uContrast").setFloat(LOADED_CONFIG.contrast);
+            program.getOrCreateUniform("uSaturation").setFloat(LOADED_CONFIG.saturation);
 
-            program.getUniform("uLuma").setVector(
+            program.getOrCreateUniform("uLuma").setVector(
                 LOADED_CONFIG.luma.get(0),
                 LOADED_CONFIG.luma.get(1),
                 LOADED_CONFIG.luma.get(2)
