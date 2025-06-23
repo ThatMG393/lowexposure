@@ -68,14 +68,13 @@ public class LowExposure {
             name, pipeline, context
         ) -> {
             if (!LOW_EXPOSURE_PIPELINE.equals(name)) return;
-            ShaderProgram program = context.getShader(LOW_EXPOSURE_SHADER);
-            if (program == null) return;
+            // ShaderProgram program = context.getShader(LOW_EXPOSURE_SHADER);
+            // if (program == null) return;
 
-            program.getOrCreateUniform("uBrightness").setFloat(LOADED_CONFIG.brightness);
-            program.getOrCreateUniform("uContrast").setFloat(LOADED_CONFIG.contrast);
-            program.getOrCreateUniform("uSaturation").setFloat(LOADED_CONFIG.saturation);
-
-            program.getOrCreateUniform("uLuma").setVector(
+            pipeline.getOrCreateUniform("uBrightness").setFloat(LOADED_CONFIG.brightness);
+            pipeline.getOrCreateUniform("uContrast").setFloat(LOADED_CONFIG.contrast);
+            pipeline.getOrCreateUniform("uSaturation").setFloat(LOADED_CONFIG.saturation);
+            pipeline.getOrCreateUniform("uLuma").setVector(
                 LOADED_CONFIG.luma.get(0),
                 LOADED_CONFIG.luma.get(1),
                 LOADED_CONFIG.luma.get(2)
